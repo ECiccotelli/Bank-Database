@@ -1,5 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
+from insertScript import insertbranch, insertCustomer, insertEmployee, insertOther
+
 
 
 def elogin():
@@ -9,6 +11,21 @@ def elogin():
     e_pass = input("Please enter your password: ")
     # Make query to verify or reject customer login
 
+    loggedIn = False
+
+    while(not loggedIn):
+        print("Incorrect username or password. Try again: ")
+        e_user = input("Please enter your username: ")
+        e_pass = input("Please enter your password: ")
+        # Make query to verify or reject customer login
+        #select from employee_login
+        loggedIn = True #If successful login
+
+    #Show menu of actions
+
+
+
+
 def clogin():
     #Customer login
     print("---Customer login---")
@@ -16,6 +33,7 @@ def clogin():
     c_pass = input("Please enter your password: ")
     # Make query to verify or reject employee login
 
+    loggedIn = False
 
 
 
@@ -69,5 +87,5 @@ if conn.is_connected():
 # Uses database
 mycursor.execute("use bank")
 
-
+insertEmployee(mycursor, conn)
 main()

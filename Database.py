@@ -80,12 +80,16 @@ conn = mysql.connector.connect(host='localhost',
 mycursor = conn.cursor()
 if conn.is_connected():
     print('Connected to MySQL database')
-
+else:
+    print('Error connecting to database')
 
 # Creates database
 #mycursor.execute("create database bank")
 # Uses database
 mycursor.execute("use bank")
 
+insertbranch(mycursor, conn)
 insertEmployee(mycursor, conn)
+insertCustomer(mycursor, conn)
+insertOther(mycursor, conn)
 main()

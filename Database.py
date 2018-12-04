@@ -1,39 +1,8 @@
 import mysql.connector
 from mysql.connector import Error
 from insertScript import insertTables, insertbranch, insertCustomer, insertEmployee, insertOther
-
-
-
-def elogin():
-    #Employee login
-    print("---Employee login---")
-    e_user = input("Please enter your username: ")
-    e_pass = input("Please enter your password: ")
-    # Make query to verify or reject customer login
-
-    loggedIn = False
-
-    while(not loggedIn):
-        print("Incorrect username or password. Try again: ")
-        e_user = input("Please enter your username: ")
-        e_pass = input("Please enter your password: ")
-        # Make query to verify or reject customer login
-        #select from employee_login
-        loggedIn = True #If successful login
-
-    #Show menu of actions
-
-
-
-
-def clogin():
-    #Customer login
-    print("---Customer login---")
-    c_user = input("Please enter your username: ")
-    c_pass = input("Please enter your password: ")
-    # Make query to verify or reject employee login
-
-    loggedIn = False
+from customer import clogin, cMenu
+from employee import elogin
 
 
 
@@ -45,7 +14,6 @@ def main():
     userInput = input("Are you an employee or a customer? (E/C): ")
 
 
-
     while (userInput != "E" and userInput != "C" and userInput != "e" and userInput != "c"):
         userInput = input("Incorrect option. Please enter again (E/C): ")
 
@@ -55,12 +23,16 @@ def main():
 
     if(customer):
         #show customer menu
-        clogin()
+        clogin(mycursor)
+        #Customer menu here
+        cMenu(mycursor, conn)
 
 
     else:
-        #show employee menu
-        elogin()
+        elogin(mycursor)
+        #Employee menu here
+
+
 
 
     #Creates table
@@ -84,7 +56,13 @@ else:
     print('Error connecting to database')
 
 # Creates database
-mycursor.execute("create database bank")
+try:
+    mycursor.execute("create database bank")
+except:
+    print("Database already exists! Taking care of that now...")
+    mycursor.execute("drop database bank")
+    mycursor.execute("create database bank")
+
 # Uses database
 mycursor.execute("use bank")
 

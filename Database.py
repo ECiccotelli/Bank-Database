@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 from insertScript import insertTables, insertbranch, insertCustomer, insertEmployee, insertOther
 from customer import clogin, cMenu
-from employee import elogin
+from employee import elogin, eMenu
 
 
 
@@ -31,7 +31,7 @@ def main():
     else:
         elogin(mycursor)
         #Employee menu here
-
+        eMenu(mycursor, conn)
 
 
 

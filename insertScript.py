@@ -176,9 +176,9 @@ def insertEmployee(mycursor, conn):
 
 
     #-----Employee logins-----
-    e_usernames = ['wilford@gmail.com', 'clarine4@gmail.com', 'jerry05@gmail.com', 'celeste032@gmail.com', 'denice1@gmail.com',
+    e_usernames = ['etest', 'clarine4@gmail.com', 'jerry05@gmail.com', 'celeste032@gmail.com', 'denice1@gmail.com',
                    'nettie74@gmail.com', 'laura@gmail.com', 'ethel542@gmail.com', 'jacquelynn24@gmail.com', 'jennell23@gmail.com']
-    e_passwords = ['wilfordPassword', 'pAsSwOrD', 'jerryisawesome', 'celestethebest', 'denicethebeast', 'nettieYetty', 'lauraPass',
+    e_passwords = ['etest', 'pAsSwOrD', 'jerryisawesome', 'celestethebest', 'denicethebeast', 'nettieYetty', 'lauraPass',
                    'ethelpassworD', 'jackieChan',  'jennellPassWord']
     for i in range(0, 10):
         query = "insert into employee_login values (" + str(e_id[i]) + ",'" + e_usernames[i] + "','" + e_passwords[i] + "');"

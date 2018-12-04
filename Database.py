@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from insertScript import insertbranch, insertCustomer, insertEmployee, insertOther
+from insertScript import insertTables, insertbranch, insertCustomer, insertEmployee, insertOther
 
 
 
@@ -84,10 +84,11 @@ else:
     print('Error connecting to database')
 
 # Creates database
-#mycursor.execute("create database bank")
+mycursor.execute("create database bank")
 # Uses database
 mycursor.execute("use bank")
 
+insertTables(mycursor, conn)
 insertbranch(mycursor, conn)
 insertEmployee(mycursor, conn)
 insertCustomer(mycursor, conn)

@@ -1,6 +1,72 @@
 import mysql.connector
 from mysql.connector import Error
 
+def insertTables(mycursor, conn):
+    #Insert tables
+    print("Inserting Tables")
+
+    statement = "create table branch (b_id int, name varchar(32), address varchar(75), primary key (b_id));"
+    mycursor.execute(statement)
+
+    statement = "create table b_phone (b_id int, phone_num varchar(20),  primary key (b_id, phone_num), foreign key " \
+                "(b_id) references branch (b_id));"
+    mycursor.execute(statement)
+
+    statement = "create table employee(e_id int,name varchar(50),street varchar(50),city varchar(35)," \
+                "state varchar(5),zip varchar(5),branch_id int, primary key (e_id),foreign key (branch_id) " \
+                "references branch(b_id));"
+
+    mycursor.execute(statement)
+    statement = "create table e_phone(e_id int,phone_num varchar(20), primary key(e_id, phone_num)," \
+                "foreign key (e_id) references employee (e_id));"
+    mycursor.execute(statement)
+
+    statement = "create table employee_login(	e_id int,    username varchar(32),    " \
+                "password varchar(16),    primary key (e_id),    foreign key (e_id) references employee (e_id));"
+
+    mycursor.execute(statement)
+
+    statement = "create table customer(	c_id int,    name varchar(50),    street varchar(50),    " \
+                "city varchar(35),    state varchar(5),    zip varchar(5),    branch_id int,    " \
+                "primary key (c_id),foreign key (branch_id) references branch (b_id));"
+
+    mycursor.execute(statement)
+
+    statement = "create table c_phone(	c_id int,    phone_num varchar(20),    primary key (c_id, phone_num),    " \
+                "foreign key (c_id) references customer (c_id));"
+
+    mycursor.execute(statement)
+
+    statement = "create table customer_login(c_id int,    username varchar(32),    password varchar(16),    " \
+                "primary key (c_id),    foreign key (c_id) references customer (c_id));"
+
+    mycursor.execute(statement)
+
+    statement = "create table bank_accounts(	account_num int,    type varchar(6),    balance double,    c_id int,  " \
+                "  date_created DATE,    primary key (account_num),    foreign key (c_id) references customer (c_id));"
+
+    mycursor.execute(statement)
+
+    statement = "create table transaction_log(	amount double,    type varchar(10),    datetime DATETIME,    " \
+                "account_num int,    primary key (account_num, datetime, type),    " \
+                "foreign key (account_num) references bank_accounts (account_num));"
+    mycursor.execute(statement)
+
+    statement = "create table cards(	card_num varchar(16),    cvv int,    exp_date DATE,    " \
+                "account_num int,    date_created DATE,    primary key (card_num),    " \
+                "foreign key (account_num) references bank_accounts(account_num));"
+    mycursor.execute(statement)
+
+    statement = "create table loans(	loan_id int,    b_id int,    primary key (loan_id),    " \
+                "foreign key (b_id) references branch(b_id));"
+    mycursor.execute(statement)
+
+
+    statement = "create table loan_payments(	loan_id int,    payment_no int,    " \
+                "due_date DATE,    amount double,    received_on DATE,    " \
+                "primary key (loan_id, payment_no),    foreign key (loan_id) references loans (loan_id));"
+
+    mycursor.execute(statement)
 def insertbranch(mycursor, conn):
 
     print("Inserting branch data")

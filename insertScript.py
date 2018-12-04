@@ -134,9 +134,9 @@ def insertCustomer(mycursor, conn):
 
 
     #-----Customer logins-----
-    c_usernames = ['sequin@optonline.net', 'phizntrg@live.com', 'telbij@comcast.net', 'aprakash@optonline.net', 'bolow@sbcglobal.net',
+    c_usernames = ['ctest', 'phizntrg@live.com', 'telbij@comcast.net', 'aprakash@optonline.net', 'bolow@sbcglobal.net',
                    'joelw@comcast.net', 'bjoern@verizon.net', 'jemarch@yahoo.ca', 'murdocj@yahoo.ca', 'tattooman@sbcglobal.net']
-    c_passwords = ['ewewdwgt', 'pass', 'w0rd', 'pAsS', 'pazzword', 'myPass', 'passWORD','wordpass', 'abc123',  'def456']
+    c_passwords = ['ctest', 'pass', 'w0rd', 'pAsS', 'pazzword', 'myPass', 'passWORD','wordpass', 'abc123',  'def456']
     for i in range(0, 10):
         query = "insert into customer_login values (" + str(c_id[i]) + ",'" + c_usernames[i] + "','" + c_passwords[i] + "');"
         mycursor.execute(query)

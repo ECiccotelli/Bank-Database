@@ -1,3 +1,12 @@
+'''
+INSERTSCRIPT.PY FILE
+INSERTS TABLES AND DATA
+AUTHOR: ERIC CICCOTELLI
+DATE: 12/6/2018
+'''
+
+
+
 import mysql.connector
 from mysql.connector import Error
 

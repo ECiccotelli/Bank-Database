@@ -51,7 +51,8 @@ conn = mysql.connector.connect(host='localhost',
 
 mycursor = conn.cursor()
 if conn.is_connected():
-    print('Connected to MySQL database')
+    connected = True
+    #print('Connected to MySQL database')
 else:
     print('Error connecting to database')
 
@@ -59,7 +60,7 @@ else:
 try:
     mycursor.execute("create database bank")
 except:
-    print("Database already exists! Taking care of that now...")
+    #print("Database already exists! Taking care of that now...")
     mycursor.execute("drop database bank")
     mycursor.execute("create database bank")
 

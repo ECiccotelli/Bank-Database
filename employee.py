@@ -28,6 +28,7 @@ def elogin(mycursor):
 
         if data:
             print("Successfully logged in now as an employee!")
+            print('\n')
             loggedIn = True
 
 
@@ -43,14 +44,15 @@ def eMenu(mycursor, conn):
     print("3. Delete user login")
     print("4. Create new bank account")
     print("5. Create new debit card")
-    print("6. View loans for your branch")
-    print("7. View transaction log for all accounts")
+    print("6. View names and balances of customers for your branch")#not done
+    print("7. View transaction log for all accounts")#not done
     print("8. Exit")
     userChoice = int(input("Please make a selection: "))
 
     exitNumber = 8
     while(userChoice > exitNumber or userChoice < 1):
         userChoice = int(input("Incorrect option. Please select again: "))
+
 
     while userChoice != 8:
         if userChoice == 1:
@@ -66,11 +68,15 @@ def eMenu(mycursor, conn):
             newBankAcct(mycursor, conn)
         elif userChoice == 5:
             print("Create new debit card function")
+            newCard(mycursor, conn)
         elif userChoice == 6:
             print("View customer names and balances per branch")
+            viewBal(mycursor, conn)
         elif userChoice == 7:
             print("View transaction log for all accounts option")
+            viewLog(mycursor, conn)
 
+        print('\n')
         #Reprompt
         print("If you would like to perform another operation, please select an option below:")
         print("1. Create new customer information")
@@ -210,3 +216,78 @@ def newBankAcct(mycursor, conn):
 #print("6. See all customer names and balances per branch")
     #select c_id, name, balance, branch_id from customer natural join bank_accounts group by branch_id;
 #print("7. View transaction log for all accounts")
+
+def newCard(mycursor, conn):
+    card_num = input("Please enter a 16 digit new card number: ")
+    cvv = input("Please enter the new cvv: ")
+    exp_date = input("Please enter exp date (YYYY-MM-DD): ")
+    account_num = input("Enter account number that will be associated with this card: ")
+    now = datetime.datetime.now()
+    date_created = now.date()
+
+
+    #Check if card number is valid and not used
+    query = "select card_num from cards where card_num = '" + card_num + "';"
+    mycursor.execute(query)
+    data = mycursor.fetchall()
+    while data:
+        card_num = input("Card number already in use. Try again: ")
+        query = "select card_num from cards where card_num = '" + card_num + "';"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+
+
+    #Check if account_num is valid and not used
+    query = "select account_num from bank_accounts where account_num = " + account_num + ";"
+    mycursor.execute(query)
+    data = mycursor.fetchall()
+    while not data:
+        account_num = input("Account number not found. Try again: ")
+        query = "select account_num from bank_accounts where account_num = " + account_num + ";"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+
+
+
+    try:
+        insert = "insert into cards values ('" + card_num + "'," + cvv + ",'" + exp_date + "'," + account_num + ",'" \
+                 + str(date_created) + "');"
+        mycursor.execute(insert)
+        conn.commit()
+        print("Successfully added new card!")
+    except:
+        print("Error adding card. Please try again")
+
+def viewBal(mycursor, conn):
+    branch_id = input("Please enter branch id: ")
+
+
+    try:
+        query = "select c_id, name, balance from customer natural join bank_accounts where branch_id = " + branch_id + ";"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+    except:
+        print("Error querying database")
+
+    if not data:
+        print("No customers found in entered branch id: " + branch_id)
+    else:
+        print("Here are the IDS, Names and Balances for every customer at branch: " + branch_id)
+        for row in data:
+            print("ID: " + str(row[0]) + "  Name: " + str(row[1]) + "  Balance: $" + str(row[2]))
+
+
+def viewLog(mycursor, conn):
+    acc_num = input("Enter account number to view log for that account: ")
+
+    try:
+        query = "select * from transaction_log where account_num = " + acc_num + ";"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+    except:
+        print("Error querying database")
+        return
+
+    for row in data:
+        print("Amount: $" + str(row[0]) + "  Type: " + str(row[1]) + "  Date & Time: " + str(row[2]) +
+              "  Account number: " + str(row[3]))

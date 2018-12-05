@@ -3,7 +3,6 @@ from mysql.connector import Error
 
 def insertTables(mycursor, conn):
     #Insert tables
-    print("Inserting Tables")
 
     statement = "create table branch (b_id int, name varchar(32), address varchar(75), primary key (b_id));"
     mycursor.execute(statement)
@@ -59,8 +58,7 @@ def insertTables(mycursor, conn):
 
 
 def insertbranch(mycursor, conn):
-
-    print("Inserting branch data")
+    #Branch data
 
     branchIds = [123, 456, 789, 173, 901, 824, 432, 768, 936, 800]
     branchNames = ['Uptown', 'Downtown', 'West', 'East', 'Scranton', 'White Plains',
@@ -90,12 +88,10 @@ def insertbranch(mycursor, conn):
         mycursor.execute(query)
 
     conn.commit()
-    print("Inserted branch data successfully")
 
 
 
 def insertCustomer(mycursor, conn):
-    print("inserting customer")
     #-----Customer table-----
     c_id = [980, 987, 876, 765, 654, 543, 432, 321, 232, 434, 111]
     c_names = ['Nora Longfellow','Vanda Mccallie','Jeremiah Randolph','Daine Lurry','Sanjuanita Thornhill',
@@ -137,7 +133,6 @@ def insertCustomer(mycursor, conn):
 
 
 def insertEmployee(mycursor, conn):
-    print("inserting employee")
 
     #-----Employee table-----
     e_id = [111, 222, 333, 444, 555, 666, 777, 888, 999, 000]
@@ -180,7 +175,6 @@ def insertEmployee(mycursor, conn):
 
 
 def insertOther(mycursor, conn):
-    print("inserting other")
 
     #-----Bank accounts table-----
     acc_num = [1001, 2001, 3001, 4001, 5001, 6001, 7001, 8001, 9001, 1101]

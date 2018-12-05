@@ -1,3 +1,4 @@
+import datetime
 def clogin(mycursor):
     #Customer login
     print("---Customer login---")
@@ -13,6 +14,7 @@ def clogin(mycursor):
         loggedIn = False
     else:
         print("Successfully logged in as a customer")
+        print('\n')
         loggedIn = True
 
     while (not loggedIn):
@@ -85,6 +87,7 @@ def cMenu(mycursor, conn):
             #Make a loan payment
             print("Making a loan payment")
 
+        print('\n')
         #Reprompt
         print("If you would like to perform another operation, please select an option below: ")
         print("1. Check balance of your account")
@@ -105,6 +108,7 @@ def checkBal(mycursor, acc_num):
     #print("Current balance is: $" + str(data[0][0]))
     return data[0][0]
 
+#Need to update transaction log for deposit and withdraw too
 def deposit(mycursor, conn, acc_num):
     amount = float(input("How much do you want to deposit? "))
     balance = checkBal(mycursor, acc_num)
@@ -117,6 +121,15 @@ def deposit(mycursor, conn, acc_num):
         print("New balance is now " + str(newBal))
     except:
         print("Error depositing")
+
+    now = datetime.datetime.now()
+    # Adding transaction to transaction log
+    insert = "insert into transaction_log values(" + str(amount) + ",'Deposit','" + str(now) + "'," + str(acc_num) + ");"
+    try:
+        mycursor.execute(insert)
+        conn.commit()
+    except:
+        print("Error adding transaction to transaction log")
 
 def withdraw(mycursor, conn, acc_num):
     balance = checkBal(mycursor, acc_num)
@@ -134,5 +147,12 @@ def withdraw(mycursor, conn, acc_num):
     except:
         print("Error withdrawing money")
 
-
+    now = datetime.datetime.now()
+    #Adding transaction to transaction log
+    insert = "insert into transaction_log values(" + str(amount) + ",'Withdraw','" + str(now) + "'," + str(acc_num) + ");"
+    try:
+        mycursor.execute(insert)
+        conn.commit()
+    except:
+        print("Error adding transaction to transaction log")
 

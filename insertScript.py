@@ -57,16 +57,7 @@ def insertTables(mycursor, conn):
                 "foreign key (account_num) references bank_accounts(account_num));"
     mycursor.execute(statement)
 
-    statement = "create table loans(	loan_id int,    b_id int,    primary key (loan_id),    " \
-                "foreign key (b_id) references branch(b_id));"
-    mycursor.execute(statement)
 
-
-    statement = "create table loan_payments(	loan_id int,    payment_no int,    " \
-                "due_date DATE,    amount double,    received_on DATE,    " \
-                "primary key (loan_id, payment_no),    foreign key (loan_id) references loans (loan_id));"
-
-    mycursor.execute(statement)
 def insertbranch(mycursor, conn):
 
     print("Inserting branch data")
@@ -106,19 +97,19 @@ def insertbranch(mycursor, conn):
 def insertCustomer(mycursor, conn):
     print("inserting customer")
     #-----Customer table-----
-    c_id = [980, 987, 876, 765, 654, 543, 432, 321, 232, 434]
+    c_id = [980, 987, 876, 765, 654, 543, 432, 321, 232, 434, 111]
     c_names = ['Nora Longfellow','Vanda Mccallie','Jeremiah Randolph','Daine Lurry','Sanjuanita Thornhill',
-               'Donette Buechner','Berta Danaher','Roland Rommel','Heidy Rexroat','Ebonie Santee']
+               'Donette Buechner','Berta Danaher','Roland Rommel','Heidy Rexroat','Ebonie Santee', 'ERICCC RICH']
     c_street = ['78 Roosevelt Dr. ', '8860 Bellevue St.', '13 Clay Ave. ', '8771 South Creekside St. ',
                 '893 Coffee Ave. ', '553 West Summerhouse Drive ', '878 Main St. ', '127 Miller Drive ',
-                '8291 Trusel Court ', '6 Saxon Avenue ']
+                '8291 Trusel Court ', '6 Saxon Avenue ', '29 DAVIS']
     c_city = ['Horn Lake', 'Bangor', 'Franklin', 'Antioch', 'Redford', 'Cuyahoga Falls', 'Thornton', 'Wilson',
-              'Olney', 'Massapequa Park']
-    c_state = ['MS ', 'ME ', 'MA ', 'TN', 'MI', 'OH ', 'CO ', 'NC ', 'MD ', 'NY ']
+              'Olney', 'Massapequa Park', 'VALHALLA']
+    c_state = ['MS ', 'ME ', 'MA ', 'TN', 'MI', 'OH ', 'CO ', 'NC ', 'MD ', 'NY ', 'NY']
     c_zip = ['38637', '04401', '02038', '37013', '48239', '44221',
-             '80241', '27893', '20832', '11762']
-    c_branches = [123, 456, 789, 173, 901, 824, 432, 768, 936, 800]
-    for i in range(0, 10):
+             '80241', '27893', '20832', '11762', '10595']
+    c_branches = [123, 456, 789, 173, 901, 824, 432, 768, 936, 800, 800]
+    for i in range(0, 11):
         query = "insert into customer values (" + str(c_id[i]) + ",'" + c_names[i] + "','" + c_street[
             i] + "','" + c_city[i] + "','" + c_state[i] + "','" + c_zip[i] + "'," + str(c_branches[i]) + ");"
         mycursor.execute(query)
@@ -188,7 +179,6 @@ def insertEmployee(mycursor, conn):
 
 
 
-
 def insertOther(mycursor, conn):
     print("inserting other")
 
@@ -219,8 +209,6 @@ def insertOther(mycursor, conn):
         mycursor.execute(query)
 
 
-
-
     #-----Cards table-----
 
     card_nums = ['1111222233334444', '2222333344445555', '3333444455556666', '4444555566667777', '5555666677778888',
@@ -235,27 +223,4 @@ def insertOther(mycursor, conn):
         mycursor.execute(query)
 
 
-    #-----Loans table-----
-    loan_ids = [101, 202, 303, 404, 505, 606, 707, 808, 909, 999]
-    branchIds = [123, 456, 789, 173, 901, 824, 432, 768, 936, 800]
-
-    for i in range(0, 10):
-        query = "insert into loans values (" + str(loan_ids[i]) + "," + str(branchIds[i]) + ");"
-        mycursor.execute(query)
-
-
-
-    #-----Loan payments table-----
-    #loan Ids defined above
-    payment_no = [1, 2, 3, 3, 2, 1, 4, 5, 6, 4]
-    due_dates = date_created = ['2017-01-01', '2016-07-09','2017-01-01','2017-12-03','2016-06-30','2018-06-02','2018-08-14',
-                    '2015-02-09','2011-9-10','2018-04-07',]
-    amounts = [100, 500.50, 300, 500, 600.00, 900, 500, 1500.25, 900.59, 201.25]
-    received_on = ['2017-01-01', '2016-06-09','2017-01-01','2017-12-02','2016-06-28','2018-06-01','2018-07-30',
-                    '2015-02-07','2011-9-11','2018-04-05',]
-
-    for i in range(0, 10):
-        query = "insert into loan_payments values (" + str(loan_ids[i]) + "," + str(payment_no[i]) + ",'" + \
-                due_dates[i] +"'," + str(amounts[i]) + ",'" + received_on[i] + "');"
-        mycursor.execute(query)
     conn.commit()

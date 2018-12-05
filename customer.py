@@ -40,6 +40,14 @@ def cMenu(mycursor, conn):
     data = mycursor.fetchall()
 
     while not data:
+        acc_num = input("Account number not found. Please enter a different one: ")
+        query = "select account_num from bank_accounts where account_num = '" + acc_num + "';"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+
+
+
+    while not data:
         acc_num = input("Account number not found. Try again: ")
         query = "select account_num from bank_accounts where account_num = '" + acc_num + "';"
         mycursor.execute(query)

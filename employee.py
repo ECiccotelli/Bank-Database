@@ -1,3 +1,4 @@
+import datetime
 def elogin(mycursor):
     #Employee login
     print("---Employee login---")
@@ -62,6 +63,7 @@ def eMenu(mycursor, conn):
             deleteLogin(mycursor, conn)
         elif userChoice == 4:
             print("Create new bank account option")
+            newBankAcct(mycursor, conn)
         elif userChoice == 5:
             print("Create new debit card function")
         elif userChoice == 6:
@@ -165,7 +167,46 @@ def deleteLogin(mycursor, conn):
         print("Error deleting data. Please try again by selecting it from the menu.")
         return
     print("Successfully deleted login!")
-#print("4. Create new bank account")
+
+def newBankAcct(mycursor, conn):
+    #query = "insert into bank_accounts values (" + str(acc_num[i]) + ",'Debit'," + str(balance[i]) + "," + str(c_id[i]) + ",'" + date_created[i] + "');"
+    acc_num = input("Enter new account number: ")
+    balance = 0
+    c_id = input("Enter customer id for new account: ")
+    now = datetime.datetime.now()
+    date = now.date()
+
+    #Checking if account number is already used
+    query = "select account_num from bank_accounts where account_num = " + acc_num + ";"
+    mycursor.execute(query)
+    data = mycursor.fetchall()
+
+    while data:
+        acc_num = input("Account number already in use. Please try again: ")
+        query = "select account_num from bank_accounts where account_num = " + acc_num + ";"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+
+    #Checking if customer ID exists
+    query = "select c_id from customer where c_id = " + c_id + ";"
+    mycursor.execute(query)
+    data = mycursor.fetchall()
+
+    while not data:
+        c_id = input("Customer ID not found. Please try again: ")
+        query = "select c_id from customer where c_id = " + c_id + ";"
+        mycursor.execute(query)
+        data = mycursor.fetchall()
+
+    try:
+        statement = "insert into bank_accounts values (" + acc_num + ",'Debit'," + str(balance) + "," + c_id + ",'" + str(date) + "');"
+        mycursor.execute(statement)
+        conn.commit()
+    except:
+        print("Error inserting data. Please try again from the menu.")
+    print("Successfully added new bank account!")
+
 #print("5. Create new debit card")
 #print("6. See all customer names and balances per branch")
+    #select c_id, name, balance, branch_id from customer natural join bank_accounts group by branch_id;
 #print("7. View transaction log for all accounts")

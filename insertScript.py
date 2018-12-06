@@ -13,15 +13,15 @@ from mysql.connector import Error
 def insertTables(mycursor, conn):
     #Insert tables
 
-    statement = "create table branch (b_id int, name varchar(32), address varchar(75), primary key (b_id));"
+    statement = "create table branch (b_id int, name varchar(32) NOT NULL, address varchar(75) NOT NULL, primary key (b_id));"
     mycursor.execute(statement)
 
     statement = "create table b_phone (b_id int, phone_num varchar(20),  primary key (b_id, phone_num), foreign key " \
                 "(b_id) references branch (b_id));"
     mycursor.execute(statement)
 
-    statement = "create table employee(e_id int,name varchar(50),street varchar(50),city varchar(35)," \
-                "state varchar(5),zip varchar(5),branch_id int, primary key (e_id),foreign key (branch_id) " \
+    statement = "create table employee(e_id int,name varchar(50) NOT NULL,street varchar(50) NOT NULL,city varchar(35) NOT NULL," \
+                "state varchar(5) NOT NULL,zip varchar(5) NOT NULL,branch_id int NOT NULL, primary key (e_id),foreign key (branch_id) " \
                 "references branch(b_id));"
 
     mycursor.execute(statement)
@@ -29,13 +29,13 @@ def insertTables(mycursor, conn):
                 "foreign key (e_id) references employee (e_id));"
     mycursor.execute(statement)
 
-    statement = "create table employee_login(	e_id int,    username varchar(32),    " \
-                "password varchar(16),    primary key (e_id),    foreign key (e_id) references employee (e_id));"
+    statement = "create table employee_login(	e_id int,    username varchar(32) NOT NULL,    " \
+                "password varchar(16) NOT NULL,    primary key (e_id),    foreign key (e_id) references employee (e_id));"
 
     mycursor.execute(statement)
 
-    statement = "create table customer(	c_id int,    name varchar(50),    street varchar(50),    " \
-                "city varchar(35),    state varchar(5),    zip varchar(5),    branch_id int,    " \
+    statement = "create table customer(	c_id int,    name varchar(50) NOT NULL,    street varchar(50) NOT NULL,    " \
+                "city varchar(35) NOT NULL,    state varchar(5) NOT NULL,    zip varchar(5) NOT NULL,    branch_id int NOT NULL,    " \
                 "primary key (c_id),foreign key (branch_id) references branch (b_id));"
 
     mycursor.execute(statement)
@@ -45,23 +45,23 @@ def insertTables(mycursor, conn):
 
     mycursor.execute(statement)
 
-    statement = "create table customer_login(c_id int,    username varchar(32),    password varchar(16),    " \
+    statement = "create table customer_login(c_id int,    username varchar(32) NOT NULL,    password varchar(16) NOT NULL,    " \
                 "primary key (c_id),    foreign key (c_id) references customer (c_id));"
 
     mycursor.execute(statement)
 
-    statement = "create table bank_accounts(	account_num int,    type varchar(6),    balance double,    c_id int,  " \
-                "  date_created DATE,    primary key (account_num),    foreign key (c_id) references customer (c_id));"
+    statement = "create table bank_accounts(	account_num int,    type varchar(6) NOT NULL,    balance double NOT NULL,    c_id int,  " \
+                "  date_created DATE NOT NULL,    primary key (account_num),    foreign key (c_id) references customer (c_id));"
 
     mycursor.execute(statement)
 
-    statement = "create table transaction_log(	amount double,    type varchar(10),    datetime DATETIME,    " \
+    statement = "create table transaction_log(	amount double NOT NULL,    type varchar(10),    datetime DATETIME,    " \
                 "account_num int,    primary key (account_num, datetime, type),    " \
                 "foreign key (account_num) references bank_accounts (account_num));"
     mycursor.execute(statement)
 
-    statement = "create table cards(	card_num varchar(16),    cvv int,    exp_date DATE,    " \
-                "account_num int,    date_created DATE,    primary key (card_num),    " \
+    statement = "create table cards(	card_num varchar(16),    cvv int NOT NULL,    exp_date DATE NOT NULL,    " \
+                "account_num int,    date_created DATE NOT NULL,    primary key (card_num),    " \
                 "foreign key (account_num) references bank_accounts(account_num));"
     mycursor.execute(statement)
 

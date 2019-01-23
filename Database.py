@@ -5,9 +5,7 @@ AUTHOR: ERIC CICCOTELLI
 DATE: 12/6/2018
 '''
 
-
-import mysql.connector
-from mysql.connector import Error
+from Old import sqlStatements
 from insertScript import insertTables, insertbranch, insertCustomer, insertEmployee, insertOther
 from customer import clogin, cMenu
 from employee import elogin, eMenu
@@ -48,9 +46,9 @@ def main():
 
 
 # Connects to MySQL
-conn = mysql.connector.connect(host='localhost',
-                               user='root',
-                               password='root')
+conn = sqlStatements.connector.connect(host='localhost',
+                                       user='root',
+                                       password='root')
 
 mycursor = conn.cursor()
 if conn.is_connected():

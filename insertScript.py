@@ -6,10 +6,6 @@ DATE: 12/6/2018
 '''
 
 
-
-import mysql.connector
-from mysql.connector import Error
-
 def insertTables(mycursor, conn):
     #Insert tables
 
@@ -219,8 +215,8 @@ def insertOther(mycursor, conn):
     cvv = ['123', '456', '789', '908', '809', '706', '302', '504', '201','482']
     exp_date =  ['2020-01-01', '2020-07-07','2021-01-01','2022-12-12','2023-05-30','2024-06-03','2022-08-14',
                     '2019-02-09','2020-10-10','2019-07-07',]
-    #account numbers defined above acc_num
-    #date created defined above date_created
+
+
     for i in range(0, 10):
         query = "insert into cards values ('" + card_nums[i] + "','" + cvv[i] + "','" + exp_date[i] + "'," + str(acc_num[i]) + ",'" + date_created[i] + "');"
         mycursor.execute(query)
